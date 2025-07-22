@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="assets/icons8-hashtag-16.png" />
+    <title>3 en raya by Dpay</title>
+    <style>
+      html {
+        box-sizing: border-box;
+        font-size: 16px;
+        background: linear-gradient(90deg, #24ff79 0%, #185a9d 100%);
+        overflow-y: hidden;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        color: #fff;
+        font-family: Arial, sans-serif;
+      }
+
+      *,
+      *::after,
+      *::before {
+        box-sizing: inherit;
+      }
+
+      .bg-blue {
+        background: linear-gradient(90deg, #3498db 0%, #2eccff 100%);
+      }
+
+      .bg-green {
+        background: linear-gradient(90deg, #55ff55 0%, #209822 100%);
+      }
+
+      .full {
+        width: 100%;
+        height: 100vh;
+      }
+
+      .start {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background: linear-gradient(90deg, #24ff79 0%, #185a9d 100%);
+        border-radius: 30px;
+        box-shadow: 0 8px 32px 0 #2ecc7188, 0 2px 8px 0 #3498db88;
+      }
+      .start h1 {
+        font-size: 5rem;
+        margin: 0;
+        text-align: center;
+        color: #fff;
+        text-shadow: 0 0 10px #2ecc71, 0 0 20px #3498db, 2px 2px 8px #000;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 20px;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      .start h2 {
+        font-size: 2rem;
+        font-family: "Montserrat", sans-serif;
+        color: #fff;
+        background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+        border-radius: 20px;
+        padding: 10px 20px;
+        box-shadow: 0 2px 8px 0 #2ecc71, 0 0px 4px 0 #3498db;
+        animation: pulse 0.3s infinite alternate;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        100% {
+          transform: scale(1.1);
+        }
+      }
+
+      #space-key {
+        width: 50px;
+        height: 50px;
+        vertical-align: middle;
+      }
+
+      .sides {
+        width: 100%;
+        height: 100vh;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-areas:
+          "message message"
+          "x o";
+        align-items: center;
+        justify-items: space-between;
+        background: linear-gradient(to right, #24ff79 0%, #185a9d 100%);
+        box-shadow: 0 8px 32px 0 #2ecc7188, 0 2px 8px 0 #3498db88;
+      }
+
+      .sides h2 {
+        grid-area: message;
+        text-align: center;
+        font-size: 2.2rem;
+        margin-bottom: 20px;
+        color: #fff;
+        font-family: "Montserrat", sans-serif;
+        text-shadow: 0 0 10px #2ecc71, 0 0 20px #3498db, 2px 2px 8px #000;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      .sides #x {
+        grid-area: x;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 2px 8px 0 #2ecc71, 0 0px 4px 0 #3498db;
+        padding: 20px;
+      }
+
+      .sides #o {
+        grid-area: o;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 2px 8px 0 #2ecc71, 0 0px 4px 0 #3498db;
+        padding: 20px;
+      }
+
+      .sides img {
+        width: 250px;
+        height: 265px;
+        margin: 10px;
+        cursor: pointer;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px 0 #2ecc71, 0 0px 4px 0 #3498db;
+      }
+
+      .sides img:hover {
+        transform: scale(1.1);
+        transition: transform 0.3s ease;
+        border: solid 2px #fff;
+        border-radius: 80px;
+      }
+
+      .message {
+        max-width: 90vw;
+        width: fit-content;
+        margin: 0 auto;
+        display: block;
+        text-align: center;
+        font-size: 1.7rem;
+        color: #fff;
+        font-family: "Montserrat", sans-serif;
+        text-shadow: 0 0 10px #2ecc71, 0 0 20px #3498db, 2px 2px 8px #000;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        /* background: linear-gradient(90deg, #43cea2 0%, #3498db 100%); */
+        padding: 10px 20px;
+        /* box-shadow: 0 2px 8px 0 #2ecc71, 0 0px 4px 0 #3498db; */
+      }
+
+      .reset {
+        margin-top: 10rem;
+        font-size: 2rem;
+        animation: pulse 0.3s infinite alternate;
+        color: #fff;
+        padding: 10px 20px;
+        /* box-shadow: 0 2px 8px 0 #2ecc71, 0 0px 4px 0 #3498db; */
+      }
+
+      .game {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        width: 500px;
+        height: 500px;
+        margin: 30px auto;
+        background: linear-gradient(135deg, #2ecc71 0%, #3498db 100%);
+        border-radius: 30px;
+        box-shadow: 0 8px 32px 0 rgba(44, 62, 80, 0.2), 0 2px 8px 0 #3498db;
+        border: 4px solid #43cea2;
+        padding: 16px;
+      }
+
+      .cell {
+        background: linear-gradient(135deg, #24ff79 0%, #185a9d 100%);
+        border: 2px solid #3498db;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.8rem;
+        color: #fff;
+        cursor: pointer;
+        box-shadow: 0 2px 8px 0 #2ecc71, 0 0px 4px 0 #3498db;
+        transition: background 0.2s, box-shadow 0.2s, border 0.2s;
+      }
+
+      @keyframes pop {
+        0% {
+          transform: scale(1);
+        }
+        60% {
+          transform: scale(1.3);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      .cell.pop {
+        animation: pop 0.25s;
+      }
+      .cell:hover {
+        background: linear-gradient(135deg, #43cea2 0%, #3498db 100%);
+        box-shadow: 0 0 20px 8px #2ecc71, 0 2px 8px 0 #3498db;
+        border: 2px solid #fff;
+        color: #fffbe2;
+        transition: background 0.2s, box-shadow 0.2s, border 0.2s;
+      }
+
+      .scoreboard {
+        position: fixed;
+        top: 5px;
+        left: 10%;
+        transform: translateX(-50%);
+        display: flex;
+        justify-content: space-around;
+        width: 220px;
+        font-size: 1.7rem;
+        color: #fff;
+        font-family: "Montserrat", sans-serif;
+        text-shadow: 0 0 10px #2ecc71, 0 0 20px #3498db, 2px 2px 8px #000;
+        border-radius: 20px;
+        padding: 10px 20px;
+        box-shadow: 0 2px 8px 0 #2ecc71, 0 0px 4px 0 #3498db;
+      }
+
+      #score-x,
+      #score-o {
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        padding: 10px;
+        color: #000;
+      }
+
+      #score-x {
+        background: linear-gradient(135deg, #24ff79 0%, #185a9d 100%);
+        border-radius: 40%;
+        box-shadow: 0 2px 8px 0 #2ecc71, 0 0px 4px 0 #3498db;
+      }
+
+      #score-o {
+        background: linear-gradient(135deg, #24ff79 0%, #185a9d 100%);
+        border-radius: 40%;
+        box-shadow: 0 2px 8px 0 #2ecc71, 0 0px 4px 0 #3498db;
+      }
+
+      .none {
+        display: none;
+        visibility: hidden;
+        opacity: 0;
+      }
+
+      .winner {
+        background: linear-gradient(90deg, #ffe259 0%, #ffa751 100%);
+        color: #fff;
+        font-weight: bold;
+        font-size: 3rem;
+        text-shadow: 0 0 10px #fff, 0 0 20px #ffa751, 2px 2px 8px #000;
+        text-align: center;
+        padding: 30px 40px;
+        margin: 30px auto 0 auto;
+        border-radius: 20px;
+        box-shadow: 0 8px 32px 0 rgba(255, 168, 81, 0.4), 0 2px 8px 0 #fff2;
+        border: 4px solid #fffbe2;
+        animation: winner-glow 1.2s infinite alternate;
+      }
+
+      @keyframes winner-glow {
+        0% {
+          box-shadow: 0 0 20px 10px #ffa751, 0 2px 8px 0 #fff2;
+        }
+        100% {
+          box-shadow: 0 0 40px 20px #ffe259, 0 2px 8px 0 #fff2;
+        }
+      }
+
+      .draw {
+        background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+        color: #fff;
+        font-weight: bold;
+        font-size: 3rem;
+        text-shadow: 0 0 10px #fff, 0 0 20px #43cea2, 2px 2px 8px #000;
+        text-align: center;
+        padding: 30px 40px;
+        margin: 30px auto 0 auto;
+        border-radius: 20px;
+        box-shadow: 0 8px 32px 0 rgba(67, 206, 162, 0.4), 0 2px 8px 0 #fff2;
+        border: 4px solid #e2f7fa;
+        animation: draw-glow 1.2s infinite alternate;
+      }
+
+      @keyframes draw-glow {
+        0% {
+          box-shadow: 0 0 20px 10px #43cea2, 0 2px 8px 0 #fff2;
+        }
+        100% {
+          box-shadow: 0 0 40px 20px #185a9d, 0 2px 8px 0 #fff2;
+        }
+      }
+
+      .message,
+      .winner,
+      .draw {
+        z-index: 9999;
+        position: relative;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="start">
+      <h1>¡3 EN RAYA!</h1>
+      <h2>
+        Presiona la tecla "<img
+          id="space-key"
+          src="assets/space-key.svg"
+          alt="space-key"
+        />" para empezar a jugar
+      </h2>
+    </div>
+    <div class="sides none">
+      <h2>Jugador 1 elija un lado:</h2>
+      <div id="x">
+        <img src="assets/letter-x.png" alt="letter-x" />
+      </div>
+      <div id="o">
+        <img src="assets/letter-o.png" alt="letter-o" />
+      </div>
+    </div>
+    <div class="game none">
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+
+    <div class="scoreboard none">
+      <span id="score-x">X: 0</span>
+      <span id="score-o">O: 0</span>
+    </div>
+    <p id="main-message" class="message none"></p>
+    <p class="reset message none pulse">Presiona "R" para reiniciar el juego</p>
+    <script>
+      (function () {
+        const d = document,
+          $game = d.querySelector(".game"),
+          $message = d.getElementById("main-message"),
+          $reset = d.querySelector(".reset"),
+          $sides = d.querySelector(".sides"),
+          $body = d.querySelector("body"),
+          $scoreboard = d.querySelector(".scoreboard"),
+          $scoreX = d.getElementById("score-x"),
+          $scoreO = d.getElementById("score-o"),
+          comboWin = [
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9],
+            [1, 4, 7],
+            [2, 5, 8],
+            [3, 6, 9],
+            [1, 5, 9],
+            [3, 5, 7],
+          ],
+          $cells = d.querySelectorAll(".cell");
+
+        let player = "",
+          scoreX = 0,
+          scoreO = 0;
+
+        const putMessage = () => {
+          if (player === "X") {
+            $message.classList.remove("none", "draw", "winner");
+            $message.textContent = "Turno del jugador X";
+          } else if (player === "O") {
+            $message.classList.remove("none", "draw", "winner");
+            $message.textContent = "Turno del jugador O";
+          }
+        };
+
+        const getDraw = () => {
+          $message.classList.remove("none", "winner", "draw");
+          $message.textContent = "¡El juego ha terminado en empate!";
+          $message.classList.add("draw");
+          $game.classList.add("none");
+          $reset.classList.remove("none");
+          $scoreboard.classList.add("none");
+        };
+
+        const putSymbol = (e) => {
+          const cell = e.target;
+          if (cell.textContent !== "") return;
+          if (cell.classList.contains("cell")) {
+            cell.textContent = player;
+            cell.style.color = player === "X" ? "#2ecc71" : "#3498db";
+            cell.classList.add("pop");
+            setTimeout(() => cell.classList.remove("pop"), 250);
+            const winner = getWinner();
+            if (winner === "draw" || winner) return;
+            player = player === "X" ? "O" : "X";
+            putMessage();
+          }
+        };
+
+        const getWinner = () => {
+          const contents = Array.from($cells).map((cell) => cell.textContent);
+
+          for (let combo of comboWin) {
+            const [a, b, c] = combo.map((index) => index - 1);
+            if (
+              contents[a] === contents[b] &&
+              contents[a] === contents[c] &&
+              contents[a] !== ""
+            ) {
+              $message.classList.remove("none", "draw", "winner");
+              $message.textContent = `¡El jugador \"${contents[a]}\" ha ganado!`;
+              $message.classList.add("winner");
+              $reset.classList.remove("none");
+              $game.classList.add("none");
+              $sides.classList.add("none");
+              $scoreboard.classList.add("none");
+              if (contents[a] === "X") {
+                scoreX++;
+                $scoreX.textContent = `X: ${scoreX}`;
+                d.documentElement.classList.add("bg-green", "full");
+                d.documentElement.classList.remove("bg-blue");
+              } else if (contents[a] === "O") {
+                scoreO++;
+                $scoreO.textContent = `O: ${scoreO}`;
+                d.documentElement.classList.add("bg-blue", "full");
+                d.documentElement.classList.remove("bg-green");
+              }
+              return contents[a];
+            }
+          }
+          if (contents.every((content) => content !== "")) {
+            getDraw();
+            return "draw";
+          }
+          return null;
+        };
+
+        const resetGame = () => {
+          $cells.forEach((cell) => {
+            cell.textContent = "";
+            cell.style.color = "#fff";
+          });
+          putMessage();
+          $reset.classList.add("none");
+          d.documentElement.classList.remove("bg-green", "bg-blue", "full");
+          $game.classList.remove("none");
+          $sides.classList.add("none");
+          $scoreboard.classList.remove("none");
+        };
+
+        d.addEventListener("keydown", (e) => {
+          if (e.key === " ") {
+            if (!$sides.classList.contains("none")) return;
+            d.querySelector(".start").classList.add("none");
+            $sides.classList.remove("none");
+          }
+
+          if (e.key === "r" || e.key === "R") {
+            resetGame();
+          }
+        });
+
+        d.addEventListener("click", async (e) => {
+          if (e.target.closest("#x") || e.target.closest("#o")) {
+            $sides.classList.add("none");
+            $game.classList.remove("none");
+            if (e.target.closest("#x")) {
+              player = "X";
+              putMessage();
+            } else if (e.target.closest("#o")) {
+              player = "O";
+              putMessage();
+            }
+
+            $scoreboard.classList.remove("none");
+          }
+
+          if (e.target.matches(".cell")) {
+            putSymbol(e);
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
